@@ -6,7 +6,7 @@ import data.Product
 import extension.getNotEmptyInt
 import extension.getNotEmptyString
 
-class ShoppingProductList {
+class ShoppingProductList(private val selectedCategory: String):Screen() {
     private val products = arrayOf(
         Product("패션","겨울패딩")
         ,Product("패션","겨울바지")
@@ -21,7 +21,8 @@ class ShoppingProductList {
 
     private val categries:Map<String, List<Product>> = products.groupBy { product -> product.categoryLabel }
 
-    fun showCategoryProducts(selectedCategory: String){
+    fun showCategoryProducts(){
+        ScreenHistory.push(this)
         val categoryProducts = categries[selectedCategory]
         if(!categoryProducts.isNullOrEmpty()){
             println("""
@@ -32,14 +33,14 @@ class ShoppingProductList {
             categoryProducts.forEachIndexed { index, product ->
                 println("${index}. ${product.name}")
             }
-            addCartItem(categoryProducts,selectedCategory)
+            addCartItem(categoryProducts)
         }else{
-            showErrorMessage(selectedCategory)
+            showErrorMessage()
 
         }
     }
 
-    private fun addCartItem(categoryProducts: List<Product>, selectedCategory: String) {
+    private fun addCartItem(categoryProducts: List<Product>) {
         println("""
             $LINE_DIVIDER
             장바구니에 담을 상품 번호를 선택해 주세요 
@@ -49,28 +50,28 @@ class ShoppingProductList {
         val selectedProductNo = readLine()?.getNotEmptyInt()!!
         categoryProducts.getOrNull(selectedProductNo)?.let{
             product -> CartItems.addProduct(product)
-            selectAfterAddCart(product,selectedCategory)
+            selectAfterAddCart(product)
         } ?: run{
             println("존재하지 않는 상품번호입니다.")
-            this.showCategoryProducts(selectedCategory)
+            this.showCategoryProducts()
         }
     }
 
-    private fun selectAfterAddCart(product: Product,selectedCategory:String) {
+    private fun selectAfterAddCart(product: Product) {
         println("장바구니로 이동하시려면 #을 눌러주세요, 그렇지 않으면 *를 눌러주세요")
         val answer = readLine().getNotEmptyString()
         if (answer == "#") {
             val shoppingCart = ShoppingCart()
             shoppingCart.showCartItems()
         } else if (answer == "*") {
-            showCategoryProducts(selectedCategory)
+            showCategoryProducts()
         } else{
             println("잘못 누르셨습니다")
-            selectAfterAddCart(product,selectedCategory)
+            selectAfterAddCart(product)
         }
     }
 
-    private fun showErrorMessage(selectedCategory: String) {
+    private fun showErrorMessage() {
         println("선택하신 [$selectedCategory] 카테고리에는 등록된 상품이 존재하지 않습니다.")
     }
 }

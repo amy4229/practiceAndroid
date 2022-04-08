@@ -3,7 +3,7 @@ package screen
 import constant.LINE_DIVIDER
 import extension.getNotEmptyString
 
-class ShoppingHome {
+class ShoppingHome :Screen(){
 
     fun start(){
 
@@ -15,6 +15,7 @@ class ShoppingHome {
     }
 
     private fun greeting() {
+        ScreenHistory.push(this)
         println("안녕하세요 에이미스토어 입니다.")
         println("쇼핑을 위해 이름을 입력해주세요 :")
         val name = readLine().toString().getNotEmptyString()

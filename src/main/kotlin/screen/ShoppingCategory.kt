@@ -3,8 +3,9 @@ package screen
 import constant.LINE_DIVIDER
 import extension.getNotEmptyString
 
-class ShoppingCategory {
+class ShoppingCategory :Screen() {
     fun selectCategory(){
+        ScreenHistory.push(this)
         println(
             """ 
             $LINE_DIVIDER     
@@ -30,8 +31,8 @@ class ShoppingCategory {
                 showErrorMessage(selectedCategory)
                 selectCategory()
             }else{
-                val shoppingProductList = ShoppingProductList()
-                shoppingProductList.showCategoryProducts(selectedCategory)
+                val shoppingProductList = ShoppingProductList(selectedCategory)
+                shoppingProductList.showCategoryProducts()
             }
 
         }

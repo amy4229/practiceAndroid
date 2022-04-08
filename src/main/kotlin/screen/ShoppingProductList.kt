@@ -1,5 +1,6 @@
 package screen
 
+import data.CartItems
 import data.Product
 
 class ShoppingProductList {
@@ -25,13 +26,44 @@ class ShoppingProductList {
                 선택하신 [$selectedCategory] 카테고리 상푸밉니다.
                 ---------------------------------------------
             """.trimIndent())
-            val productsSize = categoryProducts.size
-            for(index in 0 until productsSize) {
-                println("${index}. ${categoryProducts[index].name}")
+            categoryProducts.forEachIndexed { index, product ->
+                println("${index}. ${product.name}")
             }
+            addCartItem(categoryProducts,selectedCategory)
         }else{
             showErrorMessage(selectedCategory)
 
+        }
+    }
+
+    private fun addCartItem(categoryProducts: List<Product>, selectedCategory: String) {
+        println("""
+            ***************************************
+            장바구니에 담을 상품 번호를 선택해 주세요 
+            ***************************************
+        """.trimIndent())
+
+        val selectedProductNo = readLine()?.toIntOrNull()!!
+        categoryProducts.getOrNull(selectedProductNo)?.let{
+            product -> CartItems.addProduct(product)
+            selectAfterAddCart(product,selectedCategory)
+        } ?: run{
+            println("존재하지 않는 상품번호입니다.")
+            this.showCategoryProducts(selectedCategory)
+        }
+    }
+
+    private fun selectAfterAddCart(product: Product,selectedCategory:String) {
+        println("장바구니로 이동하시려면 #을 눌러주세요, 그렇지 않으면 *를 눌러주세요")
+        val answer = readLine()
+        if (answer == "#") {
+            val shoppingCart = ShoppingCart()
+            shoppingCart.showCartItems()
+        } else if (answer == "*") {
+            showCategoryProducts(selectedCategory)
+        } else{
+            println("잘못 누르셨습니다")
+            selectAfterAddCart(product,selectedCategory)
         }
     }
 

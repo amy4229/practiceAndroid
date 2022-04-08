@@ -28,7 +28,8 @@ class ShoppingCategory {
                 showErrorMessage(selectedCategory)
                 selectCategory()
             }else{
-                // TODO 카테고리 상품 출력
+                val shoppingProductList = ShoppingProductList()
+                shoppingProductList.showCategoryProducts(selectedCategory)
             }
 
         }

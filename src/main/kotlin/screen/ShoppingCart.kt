@@ -1,5 +1,6 @@
 package screen
 
+import constant.LINE_DIVIDER
 import data.CartItems
 
 class ShoppingCart {
@@ -25,9 +26,9 @@ class ShoppingCart {
     private fun showErrorEmptyCart() {
         println(
             """
-                    *********************************
+                   $LINE_DIVIDER
                     장바구니에 담긴 상품이 없네요~~
-                    *********************************
+                   $LINE_DIVIDER
                 """.trimIndent()
         )
     }

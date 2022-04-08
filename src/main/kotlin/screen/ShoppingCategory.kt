@@ -1,14 +1,15 @@
 package screen
 
+import constant.LINE_DIVIDER
 import extension.getNotEmptyString
 
 class ShoppingCategory {
     fun selectCategory(){
         println(
             """ 
-            ******************************************     
+            $LINE_DIVIDER     
                 원하시는 카테고리를 입력해주세요
-            *****=================================*****
+            $LINE_DIVIDER
             """.trimMargin()
         )
         val categories = arrayOf("패션", "전자기기", "식음료")

@@ -1,5 +1,6 @@
 package screen
 
+import constant.LINE_DIVIDER
 import extension.getNotEmptyString
 
 class ShoppingHome {
@@ -21,9 +22,9 @@ class ShoppingHome {
 
         println(
         """
-            ****************************
+            $LINE_DIVIDER
             환영합니다. $name 님
-            ----------------------------
+            $LINE_DIVIDER
         """.trimMargin()
         )
     }
